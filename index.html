@@ -1,0 +1,201 @@
+
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEXCODE Studio</title>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;background:#080b16;color:#f4f6ff;
+ font-family:Arial,sans-serif;
+}
+header{
+ height:75px;padding:20px 30px;
+ background:#10162a;border-bottom:1px solid #29324d;
+ display:flex;justify-content:space-between;align-items:center;
+}
+.logo{font-size:24px;font-weight:900;color:#70e1ff}
+.logo span{color:#a78bfa}
+button{
+ border:0;border-radius:9px;padding:12px 17px;
+ background:#7562f5;color:white;font-weight:bold;cursor:pointer;
+}
+button:hover{filter:brightness(1.2)}
+.layout{display:grid;grid-template-columns:230px 1fr;height:calc(100vh - 75px)}
+aside{background:#10162a;padding:22px;border-right:1px solid #29324d}
+h3{color:#8794b8;font-size:12px;text-transform:uppercase}
+.menu button{
+ display:block;width:100%;text-align:left;margin:8px 0;
+ background:#19213a;color:#dce4ff;
+}
+main{padding:25px;overflow:auto}
+.welcome{
+ background:linear-gradient(120deg,#342d83,#142e54,#102c39);
+ border-radius:18px;padding:25px;margin-bottom:22px;
+}
+.welcome h1{font-size:30px;margin:0 0 10px}
+.welcome p{color:#c6d8ff}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:15px}
+.card{
+ background:#131b31;border:1px solid #293550;
+ padding:20px;border-radius:14px;cursor:pointer;
+}
+.card:hover{border-color:#8d7aff;transform:translateY(-3px)}
+.icon{font-size:30px}
+.card h3{color:white;font-size:16px;text-transform:none}
+.workspace{
+ display:grid;grid-template-columns:1fr 1fr;gap:15px;margin-top:22px
+}
+.panel{background:#131b31;border:1px solid #293550;border-radius:13px;padding:15px}
+textarea{
+ width:100%;height:270px;background:#080e1c;color:#83f4c2;
+ border:1px solid #35405d;border-radius:9px;padding:13px;
+ font-family:monospace;resize:vertical;
+}
+iframe{
+ width:100%;height:270px;background:white;border:0;border-radius:9px
+}
+input{
+ padding:12px;border-radius:8px;background:#080e1c;
+ border:1px solid #35405d;color:white;width:100%;margin:8px 0
+}
+.small{color:#8898ba;font-size:13px}
+@media(max-width:750px){
+ .layout{grid-template-columns:1fr}
+ aside{display:none}
+ .workspace{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<header>
+ <div class="logo">NEX<span>CODE</span> STUDIO</div>
+ <div><button onclick="newProject()">+ Nieuw project</button></div>
+</header>
+
+<div class="layout">
+<aside>
+ <h3>Werkruimte</h3>
+ <div class="menu">
+  <button onclick="show('home')">🏠 Dashboard</button>
+  <button onclick="show('editor')">💻 Code editor</button>
+  <button onclick="newProject()">✨ Nieuw project</button>
+ </div>
+ <h3>Mijn studio</h3>
+ <p class="small">Jouw creatieve omgeving.</p>
+ <p class="small">⚡ Live preview</p>
+ <p class="small">🎮 Game development</p>
+ <p class="small">📱 App development</p>
+</aside>
+
+<main id="home">
+ <div class="welcome">
+  <h1>Build something amazing. 🚀</h1>
+  <p>Jouw ideeën. Jouw code. Jouw eigen digitale wereld.</p>
+  <button onclick="show('editor')">Start met bouwen →</button>
+ </div>
+
+ <h2>Wat wil je maken?</h2>
+ <div class="cards">
+  <div class="card" onclick="start('game')">
+   <div class="icon">🎮</div>
+   <h3>Game maken</h3>
+   <p class="small">Bouw je eigen speelbare game.</p>
+  </div>
+  <div class="card" onclick="start('app')">
+   <div class="icon">📱</div>
+   <h3>App maken</h3>
+   <p class="small">Ontwerp een eigen applicatie.</p>
+  </div>
+  <div class="card" onclick="start('website')">
+   <div class="icon">🌐</div>
+   <h3>Website maken</h3>
+   <p class="small">Bouw een eigen website.</p>
+  </div>
+  <div class="card" onclick="start('football')">
+   <div class="icon">⚽</div>
+   <h3>Project maken</h3>
+   <p class="small">Begin met een leeg canvas.</p>
+  </div>
+ </div>
+</main>
+</div>
+
+<script>
+function show(page){
+ if(page==='home') location.reload();
+ else editor();
+}
+
+function newProject(){editor();}
+
+function start(type){
+ editor();
+ let examples={
+ game:`<h1>Mijn game</h1>
+<p>Welkom bij mijn game!</p>
+<button onclick="alert('Level gehaald!')">START SPELEN</button>`,
+ app:`<h1>Mijn eigen app</h1>
+<input placeholder="Typ iets...">
+<button onclick="alert('Welkom!')">Verstuur</button>`,
+ website:`<h1>Mijn website</h1>
+<p>Welkom op mijn website.</p>`,
+ football:`<h1>Mijn project</h1>
+<p>Dit is mijn nieuwe project!</p>`
+ };
+ document.getElementById('code').value=examples[type];
+ run();
+}
+
+function editor(){
+ document.querySelector('main').innerHTML=`
+ <h1>💻 Code Studio</h1>
+ <p class="small">Schrijf HTML, CSS en JavaScript en bekijk direct het resultaat.</p>
+ <input id="projectName" placeholder="Naam van je project">
+ <div class="workspace">
+  <div class="panel">
+   <h3>📝 Code editor</h3>
+   <textarea id="code" spellcheck="false"><h1>Hallo wereld!</h1>
+<p>Mijn eerste project.</p>
+<button onclick="alert('Het werkt!')">Klik hier</button></textarea>
+   <br><br>
+   <button onclick="run()">▶ Run code</button>
+   <button onclick="clearCode()">Wis code</button>
+  </div>
+  <div class="panel">
+   <h3>👁 Live preview</h3>
+   <iframe id="preview" sandbox="allow-scripts"></iframe>
+  </div>
+ </div>
+ <br>
+ <button onclick="downloadProject()">⬇ Download project</button>
+ <button onclick="show('home')">← Dashboard</button>
+ `;
+ run();
+}
+
+function run(){
+ let code=document.getElementById('code');
+ if(!code)return;
+ document.getElementById('preview').srcdoc=code.value;
+}
+
+function clearCode(){
+ document.getElementById('code').value='';
+ run();
+}
+
+function downloadProject(){
+ let code=document.getElementById('code').value;
+ let name=document.getElementById('projectName').value||'mijn-project';
+ let file=new Blob([code],{type:'text/html'});
+ let url=URL.createObjectURL(file);
+ let a=document.createElement('a');
+ a.href=url;a.download=name+'.html';a.click();
+ URL.revokeObjectURL(url);
+}
+</script>
+</body>
+</html>
